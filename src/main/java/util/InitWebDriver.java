@@ -1,10 +1,14 @@
 package util;
 
+import PageObjects.CommercePage;
 import PageObjects.LoginPage;
 import PageObjects.MainPage;
+import PageObjects.ProductPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
 import java.util.concurrent.TimeUnit;
@@ -21,7 +25,7 @@ public class InitWebDriver {
         reader = new PropertyReader();
     }
 
-    @BeforeTest
+    @BeforeMethod
     public void setUp(){
 
         System.setProperty("webdriver.chrome.driver", reader.getChromeDriverPath());
@@ -36,7 +40,7 @@ public class InitWebDriver {
         return Driver;
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
 
         if(Driver != null){

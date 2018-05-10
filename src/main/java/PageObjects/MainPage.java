@@ -58,7 +58,7 @@ public class MainPage extends PageBase{
     public CommercePage getCPQPage(String s, String o){
         customers.click();
         accounts.click();
-        ObjectRepo.waitForLoad(5000);
+        ObjectRepo.waitForLoad(10000);
         searchBtn.click();
         ObjectRepo.waitForLoad(2000);
         searchBtnField.sendKeys(s);
@@ -75,7 +75,7 @@ public class MainPage extends PageBase{
         oppoSearchField.sendKeys(Keys.ENTER);
         ObjectRepo.waitForLoad(3000);
         opportunity.click();
-        ObjectRepo.waitForLoad(3000);
+        ObjectRepo.waitForLoad(6000);
         //quotesTab.click();
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", quotesTab);

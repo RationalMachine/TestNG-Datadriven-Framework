@@ -28,7 +28,8 @@ public class ExtentReportListener implements ISuiteListener,ITestListener {
 	}
 
 	public void onStart(ISuite suite) {
-		exReport = new ExtentReports("reports/" + suite.getName() + ".html");
+	    //String reportPath = System.getProperty("user.dir");
+		exReport = new ExtentReports("/reports" + ".html");
 		System.out.println("On Start Method executed");
 	}
 
@@ -59,7 +60,7 @@ public class ExtentReportListener implements ISuiteListener,ITestListener {
 
 	public void onTestSkipped(ITestResult test) {
 		exTest.log(LogStatus.SKIP, test.getTestClass().getName() + "." + test.getMethod().getMethodName());
-		
+		//exTest.log(LogSta);
 	}
 
 	public void onTestStart(ITestResult arg0) {

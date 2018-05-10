@@ -8,9 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -22,6 +24,8 @@ import org.testng.annotations.DataProvider;
 
 //import com.abc.util.PropertyFileRead;
 import util.PropertyReader;
+
+import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING;
 
 public class ExcelDataProvider {
 	private static XSSFSheet ExcelWSheet;
@@ -40,7 +44,7 @@ public static Object[][] getData()
 {
 	// Excel Read
 	
-	String xlsPath = System.getProperty("user.dir") + "\\data.xls";
+	String xlsPath = System.getProperty("user.dir") + "\\data.xlsx";
 	//String xlsPath = PropertyFileRead.FileRead("DBDetail.properties","DataProviderExcelPath"); // Use this path if File is kept in remote location other than project
 	int TotalRows =0;
 	 FileInputStream fis;
@@ -48,18 +52,18 @@ public static Object[][] getData()
 	try {
 		fis = new FileInputStream(xlsPath);
 	
-        HSSFWorkbook workbook = new HSSFWorkbook(fis);
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
 		
         int index = workbook.getSheetIndex(PropertyReader.fileRead("ProjectData.properties","DataProviderExcelFileSheetName"));
        
-        HSSFSheet sheet = workbook.getSheetAt(index);
+        XSSFSheet sheet = workbook.getSheetAt(index);
         //HSSFSheet sheet = workbook.getSheet("Sheet1");
          TotalRows = sheet.getLastRowNum();
         int TotalCols = sheet.getRow(0).getLastCellNum();
         data = new Object[TotalRows][1];
         System.out.println("Total No of Column found in Excel Data Provider" +TotalCols );
         for (int i = 1; i <= TotalRows; i++) {
-        	HSSFRow row = sheet.getRow(i);
+        	XSSFRow row = sheet.getRow(i);
         	ArrayList<String> data33 = new ArrayList<String>();
         	//row.getCell(1).getStringCellValue()
         	for (int j = 0; j <= TotalCols-1; j++) {
@@ -92,11 +96,11 @@ return data;
 
 
 @DataProvider
-public static Object[][] getGoogleMapsData()
+public static Object[][] getProductData()
 {
 	// Excel Read
 	
-	String xlsPath = System.getProperty("user.dir") + "\\data.xls";
+	String xlsPath = System.getProperty("user.dir") + "\\data.xlsx";
 	//String xlsPath = PropertyFileRead.FileRead("DBDetail.properties","DataProviderExcelPath"); // Use this path if File is kept in remote location other than project
 	int TotalRows =0;
 	 FileInputStream fis;
@@ -104,24 +108,29 @@ public static Object[][] getGoogleMapsData()
 	try {
 		fis = new FileInputStream(xlsPath);
 	
-        HSSFWorkbook workbook = new HSSFWorkbook(fis);
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
+        //XSSFWorkbook workbook = new XSSFWorkbook(fis);
 		
-        int index = workbook.getSheetIndex("GoogleMapData");
+        int index = workbook.getSheetIndex("Approvals");
        
-        HSSFSheet sheet = workbook.getSheetAt(index);
+        XSSFSheet sheet = workbook.getSheetAt(index);
         //HSSFSheet sheet = workbook.getSheet("Sheet1");
          TotalRows = sheet.getLastRowNum();
         int TotalCols = sheet.getRow(0).getLastCellNum();
         data = new Object[TotalRows][1];
         System.out.println("Total No of Column found in Excel Data Provider" +TotalCols );
         for (int i = 1; i <= TotalRows; i++) {
-        	HSSFRow row = sheet.getRow(i);
+        	XSSFRow row = sheet.getRow(i);
         	ArrayList<String> data33 = new ArrayList<String>();
         	//row.getCell(1).getStringCellValue()
         	for (int j = 0; j <= TotalCols-1; j++) {
-        		System.out.println("Excel Data in Column number "+ j + " is ::" +row.getCell(j).getStringCellValue());
-        		data33.add(row.getCell(j).getStringCellValue());
-        		
+                DataFormatter formatter = new DataFormatter();
+                String val = formatter.formatCellValue(sheet.getRow(i).getCell(j));
+        		//System.out.println("Excel Data in Column number "+ j + " is ::" +row.getCell(j).getStringCellValue());
+                //data33.add(row.getCell(j).getStringCellValue());
+                //String celldata = row.getCell(j).setCellType(CELL_TYPE_STRING);
+                //data33.add(row.getCell(j).getStringCellValue());
+                data33.add(val);
         	}
         	
         	

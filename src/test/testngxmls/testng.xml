@@ -10,5 +10,10 @@
         <classes>
             <class name="ApprovalMessageTest" />
         </classes>
+    </test>
+    <test name="CPQConnectivityTest">
+        <classes>
+            <class name="CPQConnectivityTest" />
+        </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
