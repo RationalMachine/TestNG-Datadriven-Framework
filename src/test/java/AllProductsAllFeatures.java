@@ -32,7 +32,8 @@ public class AllProductsAllFeatures extends InitWebDriver{
         ProductPage productPage = commercePage.addProduct();
         productPage.addProductPageProduct(DPObj.DataArray.get(0), DPObj.DataArray.get(1), DPObj.DataArray.get(2),
                 DPObj.DataArray.get(3),
-                DPObj.DataArray.get(4));
+                DPObj.DataArray.get(4),
+                DPObj.DataArray.get(6));
         ObjectRepo.waitForLoad(3000);
         JavascriptExecutor executor = (JavascriptExecutor)Driver;
         executor.executeScript("arguments[0].click()", commercePage.saveButton);

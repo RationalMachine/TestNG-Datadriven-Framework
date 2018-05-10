@@ -35,7 +35,12 @@ public class EthernetP2PAdd extends InitWebDriver{
             long startTime = System.currentTimeMillis();
             ProductPage productPage = commercePage.addProduct();
             System.out.println(DPObj.DataArray.get(0));
-            productPage.addProductPageProduct(DPObj.DataArray.get(0).replaceAll("\\s", ""), DPObj.DataArray.get(1).replaceAll("\\s", ""), DPObj.DataArray.get(2), DPObj.DataArray.get(3), DPObj.DataArray.get(4));
+            productPage.addProductPageProduct(DPObj.DataArray.get(0).replaceAll("\\s", ""),
+                    DPObj.DataArray.get(1).replaceAll("\\s", ""),
+                    DPObj.DataArray.get(2),
+                    DPObj.DataArray.get(3),
+                    DPObj.DataArray.get(4),
+                    DPObj.DataArray.get(6));
             long endTime = System.currentTimeMillis();
             long totalLong = endTime - startTime;
             String total = String.valueOf(totalLong);

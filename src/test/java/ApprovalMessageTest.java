@@ -31,7 +31,9 @@ public class ApprovalMessageTest extends InitWebDriver {
         ProductPage productPage = commercePage.addProduct();
         productPage.addProductPageProduct(DPObj.DataArray.get(0), DPObj.DataArray.get(1), DPObj.DataArray.get(2),
                 DPObj.DataArray.get(3),
-                DPObj.DataArray.get(4));
+                DPObj.DataArray.get(4),
+                DPObj.DataArray.get(6)
+                );
         ObjectRepo.waitForLoad(3000);
         commercePage.quoteTab.click();
         ObjectRepo.waitForLoad(3000);

@@ -158,7 +158,7 @@ public class ProductPage extends PageBase {
     @FindBy(xpath = "\"//a[contains(text(),\" + \"'\" + QT-20180508-031897-01 + \"')]\"")
     public WebElement quoteClick;
 
-    public void addProductPageProduct(String productName, String arg0, String s, String s1, String s2) {
+    public void addProductPageProduct(String productName, String arg0, String s, String s1, String s2, String poa) {
         switch (productName) {
             case "hub":
                 Actions actions = new Actions(driver);
@@ -180,7 +180,7 @@ public class ProductPage extends PageBase {
                 Select dropdownRes = new Select(resiliencyDrop);
                 dropdownRes.selectByValue(s2);
                 ObjectRepo.waitForLoad(3000);
-                //addAllHubFeatures();
+                addAllHubFeatures(poa);
                 executor.executeScript("arguments[0].click()", saveToQuote);
                 break;
             case "line":
@@ -211,7 +211,7 @@ public class ProductPage extends PageBase {
                 ObjectRepo.waitForLoad(3000);
                 executor1.executeScript("arguments[0].click()", featureTab);
                 ObjectRepo.waitForLoad(3000);
-                addFeatures();
+                addFeatures(poa);
                 ObjectRepo.waitForLoad(3000);
                 executor1.executeScript("arguments[0].click()", saveToQuote);
                 break;
@@ -244,10 +244,10 @@ public class ProductPage extends PageBase {
                 Select dropdown4 = new Select(resiliencyDrop);
                 dropdown4.selectByValue(s2);
                 ObjectRepo.waitForLoad(3000);
-                //executor3.executeScript("arguments[0].click()", featureTab);
-                //ObjectRepo.waitForLoad(3000);
-                //addFeatures();
-                //ObjectRepo.waitForLoad(3000);
+                executor3.executeScript("arguments[0].click()", featureTab);
+                ObjectRepo.waitForLoad(3000);
+                addFeatures(poa);
+                ObjectRepo.waitForLoad(3000);
                 executor3.executeScript("arguments[0].click()", saveToQuote);
                 break;
             case "spoke":
@@ -274,7 +274,7 @@ public class ProductPage extends PageBase {
                     Select resDrop = new Select(resiliencyDrop);
                     resDrop.selectByValue(s2);
                     ObjectRepo.waitForLoad(5000);
-                    addAllSpokeFeatures();
+                    addAllSpokeFeatures(poa);
                     executor5.executeScript("arguments[0].click()", saveToQuote);
                 }catch (NoSuchElementException e){
                     Select hubTypeDrop = new Select(hubType);
@@ -302,7 +302,7 @@ public class ProductPage extends PageBase {
                     Select resDrop = new Select(resiliencyDrop);
                     resDrop.selectByValue(s2);
                     ObjectRepo.waitForLoad(5000);
-                    addAllSpokeFeatures();
+                    addAllSpokeFeatures(poa);
                     executor4.executeScript("arguments[0].click()", saveToQuote);
                 }
                 break;
@@ -313,18 +313,20 @@ public class ProductPage extends PageBase {
         driver.findElement(By.xpath(xpathValue)).click();
     }
 
-    public void addFeatures(){
+    public void addFeatures(String poa){
         obhA.click();
         ObjectRepo.waitForLoad(5000);
         obhB.click();
         ObjectRepo.waitForLoad(5000);
-        dualBA.click();
-        ObjectRepo.waitForLoad(5000);
-        dualEA.click();
-        ObjectRepo.waitForLoad(5000);
-        longLineingA.click();
-        ObjectRepo.waitForLoad(5000);
-        longLineingB.click();
+        if(poa == "yes") {
+            dualBA.click();
+            ObjectRepo.waitForLoad(5000);
+            dualEA.click();
+            ObjectRepo.waitForLoad(5000);
+            longLineingA.click();
+            ObjectRepo.waitForLoad(5000);
+            longLineingB.click();
+        }
         ObjectRepo.waitForLoad(5000);
         internalCablingA.click();
         ObjectRepo.waitForLoad(5000);
@@ -364,16 +366,18 @@ public class ProductPage extends PageBase {
         ObjectRepo.waitForLoad(5000);
     }
 
-    public void addAllSpokeFeatures(){
+    public void addAllSpokeFeatures(String poa){
         JavascriptExecutor executor6 = (JavascriptExecutor)driver;
         executor6.executeScript("arguments[0].click()", featureTab);
         ObjectRepo.waitForLoad(3000);
         obhA.click();
         ObjectRepo.waitForLoad(3000);
-        dualEA.click();
-        ObjectRepo.waitForLoad(3000);
-        longLineingA.click();
-        ObjectRepo.waitForLoad(3000);
+        if(poa == "yes") {
+            dualEA.click();
+            ObjectRepo.waitForLoad(3000);
+            longLineingA.click();
+            ObjectRepo.waitForLoad(3000);
+        }
         internalCablingA.click();
         ObjectRepo.waitForLoad(3000);
         linkAggregA.click();
@@ -396,16 +400,18 @@ public class ProductPage extends PageBase {
         dualCustPowerA.click();
     }
 
-    public void addAllHubFeatures(){
+    public void addAllHubFeatures(String poa){
         JavascriptExecutor executor7 = (JavascriptExecutor)driver;
         executor7.executeScript("arguments[0].click()", featureTab);
         ObjectRepo.waitForLoad(3000);
         obhA.click();
         ObjectRepo.waitForLoad(3000);
-        dualEA.click();
-        ObjectRepo.waitForLoad(3000);
-        longLineingA.click();
-        ObjectRepo.waitForLoad(3000);
+        if(poa=="yes") {
+            dualEA.click();
+            ObjectRepo.waitForLoad(3000);
+            longLineingA.click();
+            ObjectRepo.waitForLoad(3000);
+        }
         internalCablingA.click();
         Select iCablingDropHub = new Select(internalCablingDropA);
         iCablingDropHub.selectByValue("1");

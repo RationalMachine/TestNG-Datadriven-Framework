@@ -32,7 +32,11 @@ public class DealClassApprovalTest extends InitWebDriver{
         ObjectRepo.waitForLoad(5000);
         ProductPage productPage = commercePage.addProduct();
         System.out.println(DPObj.DataArray.get(0));
-        productPage.addProductPageProduct(DPObj.DataArray.get(0).replaceAll("\\s",""), DPObj.DataArray.get(1).replaceAll("\\s",""), DPObj.DataArray.get(2), DPObj.DataArray.get(3), DPObj.DataArray.get(4));
+        productPage.addProductPageProduct(DPObj.DataArray.get(0).replaceAll("\\s",""), DPObj.DataArray.get(1).replaceAll("\\s",""),
+                DPObj.DataArray.get(2),
+                DPObj.DataArray.get(3),
+                DPObj.DataArray.get(4),
+                DPObj.DataArray.get(6));
         ObjectRepo.waitForLoad(3000);
         commercePage.quoteTab.click();
         ObjectRepo.waitForLoad(3000);
