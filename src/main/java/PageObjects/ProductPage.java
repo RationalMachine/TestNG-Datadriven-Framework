@@ -4,7 +4,9 @@ import cucumber.api.java.eo.Se;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import util.ObjectRepo;
 
@@ -41,7 +43,7 @@ public class ProductPage extends PageBase {
     @FindBy(id = "hubType")
     public WebElement hubType;
 
-    @FindBy(id = "hubListForSpoke")
+    @FindBy(xpath = "(//div[@class='attribute-field-container'])[5]/select")
     public WebElement hubListForSpoke;
 
     @FindBy(xpath = "(//select)[3]/option[contains(text(),'Hub1')]")
@@ -186,7 +188,7 @@ public class ProductPage extends PageBase {
             case "line":
                 Actions actions1 = new Actions(driver);
                 actions1.moveToElement(ethernet).moveToElement(ethernetLine).click().perform();
-                ObjectRepo.waitForLoad(2000);
+                ObjectRepo.waitForLoad(6000);
                 addressEntry.sendKeys(arg0);
                 ObjectRepo.waitForLoad(10000);
                 addressEntry.sendKeys(Keys.DOWN);
@@ -194,6 +196,7 @@ public class ProductPage extends PageBase {
                 ObjectRepo.waitForLoad(10000);
                 //addressEntryBend.click();
                 addressEntryBend.sendKeys(s);
+                ObjectRepo.waitForLoad(3000);
                 addressEntryBend.sendKeys(Keys.DOWN);
                 addressEntryBend.sendKeys(Keys.ENTER);
                 ObjectRepo.waitForLoad(15000);
@@ -211,7 +214,7 @@ public class ProductPage extends PageBase {
                 ObjectRepo.waitForLoad(3000);
                 executor1.executeScript("arguments[0].click()", featureTab);
                 ObjectRepo.waitForLoad(3000);
-                addFeatures(poa);
+                addFeatures(poa, productName);
                 ObjectRepo.waitForLoad(3000);
                 executor1.executeScript("arguments[0].click()", saveToQuote);
                 break;
@@ -233,10 +236,18 @@ public class ProductPage extends PageBase {
                 JavascriptExecutor executor3 = (JavascriptExecutor)driver;
                 executor3.executeScript("arguments[0].click()", checkConnectivity);
                 ObjectRepo.waitForLoad(10000);
+
+                WebDriverWait wait = new WebDriverWait(driver, 60);
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//span[contains(text(),'Site Details')])[3]")));
+                executor3.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("(//span[contains(text(),'Site Details')])[3]")));
+                executor3.executeScript("arguments[0].click();", driver.findElement(By.xpath("(//span[contains(text(),'Site Details')])[3]")));
+                /*
+                Actions act = new Actions(driver);
+                act.moveToElement(siteDetails).click().build().perform();
                 executor3.executeScript("arguments[0].click()", siteDetails);
+                */
                 ObjectRepo.waitForLoad(5000);
                 Select dropdown2 = new Select(waveInterface);
-                waveInterface.click();
                 dropdown2.selectByValue("Ethernet");
                 ObjectRepo.waitForLoad(3000);
                 Select dropdown3 = new Select(serviceDropDown);
@@ -246,7 +257,7 @@ public class ProductPage extends PageBase {
                 ObjectRepo.waitForLoad(3000);
                 executor3.executeScript("arguments[0].click()", featureTab);
                 ObjectRepo.waitForLoad(3000);
-                addFeatures(poa);
+                addFeatures(poa, productName);
                 ObjectRepo.waitForLoad(3000);
                 executor3.executeScript("arguments[0].click()", saveToQuote);
                 break;
@@ -254,8 +265,8 @@ public class ProductPage extends PageBase {
                 Actions actions3 = new Actions(driver);
                 actions3.moveToElement(ethernet).moveToElement(spoke).click().perform();
                 ObjectRepo.waitForLoad(2000);
-                Select hubDrop = new Select(hubListForSpoke);
                 try {
+                    Select hubDrop = new Select(hubListForSpoke);
                     hubDrop.selectByValue("Hub1");
                     ObjectRepo.waitForLoad(3000);
                     addressEntry.sendKeys(arg0);
@@ -266,7 +277,9 @@ public class ProductPage extends PageBase {
                     JavascriptExecutor executor5 = (JavascriptExecutor)driver;
                     executor5.executeScript("arguments[0].click()", checkConnectivity);
                     ObjectRepo.waitForLoad(3000);
-                    executor5.executeScript("arguments[0].click()", siteDetails);
+                    Actions actions8 = new Actions(driver);
+                    actions8.moveToElement(siteDetails).click().build().perform();
+                    //executor5.executeScript("arguments[0].click()", siteDetails);
                     ObjectRepo.waitForLoad(5000);
                     Select serviceDropDownList = new Select(serviceDropDown);
                     serviceDropDownList.selectByValue(s1);
@@ -313,7 +326,7 @@ public class ProductPage extends PageBase {
         driver.findElement(By.xpath(xpathValue)).click();
     }
 
-    public void addFeatures(String poa){
+    public void addFeatures(String poa, String productName){
         obhA.click();
         ObjectRepo.waitForLoad(5000);
         obhB.click();
@@ -332,37 +345,41 @@ public class ProductPage extends PageBase {
         ObjectRepo.waitForLoad(5000);
         internalCablingB.click();
         ObjectRepo.waitForLoad(5000);
+        /*
         linkAggregA.click();
         ObjectRepo.waitForLoad(5000);
         linkAggregB.click();
         ObjectRepo.waitForLoad(5000);
-        diversity.click();
-        ObjectRepo.waitForLoad(5000);
-        classOfService.click();
-        ObjectRepo.waitForLoad(5000);
-        performanceReporting.click();
-        ObjectRepo.waitForLoad(5000);
+        */
+
+        if(!productName.equalsIgnoreCase("wave")) {
+            classOfService.click();
+            ObjectRepo.waitForLoad(5000);
+            performanceReporting.click();
+            ObjectRepo.waitForLoad(5000);
+            /*
+            diversity.click();
+            ObjectRepo.waitForLoad(5000);
+            Select diversityDropBy = new Select(diversityADrop);
+            diversityDropBy.selectByValue("Type 1");
+            ObjectRepo.waitForLoad(5000);
+            Select diversityDropByB = new Select(diversityBDrop);
+            diversityDropByB.selectByValue("Type 1");
+            ObjectRepo.waitForLoad(5000);
+            dualCustPowerA.click();
+            ObjectRepo.waitForLoad(5000);
+            dualCustPowerB.click();
+            ObjectRepo.waitForLoad(5000);
+            */
+        }
         proActive.click();
         ObjectRepo.waitForLoad(5000);
-
         Select dropFloorA = new Select(internalCablingDropA);
         dropFloorA.selectByValue("1");
         ObjectRepo.waitForLoad(5000);
         Select dropFloorB = new Select(internalCablingDropB);
         ObjectRepo.waitForLoad(5000);
         dropFloorB.selectByValue("1");
-        ObjectRepo.waitForLoad(5000);
-
-        Select diversityDropBy = new Select(diversityADrop);
-        diversityDropBy.selectByValue("Type 1");
-        ObjectRepo.waitForLoad(5000);
-        Select diversityDropByB = new Select(diversityBDrop);
-        diversityDropByB.selectByValue("Type 1");
-        ObjectRepo.waitForLoad(5000);
-
-        dualCustPowerA.click();
-        ObjectRepo.waitForLoad(5000);
-        dualCustPowerB.click();
         ObjectRepo.waitForLoad(5000);
     }
 
@@ -372,32 +389,32 @@ public class ProductPage extends PageBase {
         ObjectRepo.waitForLoad(3000);
         obhA.click();
         ObjectRepo.waitForLoad(3000);
-        if(poa == "yes") {
+        if(poa.equalsIgnoreCase("yes")) {
             dualEA.click();
             ObjectRepo.waitForLoad(3000);
             longLineingA.click();
             ObjectRepo.waitForLoad(3000);
         }
-        internalCablingA.click();
-        ObjectRepo.waitForLoad(3000);
-        linkAggregA.click();
-        ObjectRepo.waitForLoad(3000);
-        diversity.click();
-        ObjectRepo.waitForLoad(3000);
-        performanceReporting.click();
-        ObjectRepo.waitForLoad(3000);
-        proActive.click();
-        ObjectRepo.waitForLoad(3000);
-        fastTrackBox.click();
-        ObjectRepo.waitForLoad(3000);
-        Select icablingDrop = new Select(internalCablingDropA);
-        icablingDrop.selectByValue("1");
-        ObjectRepo.waitForLoad(3000);
-        Select iDiversityDrop = new Select(diversityADrop);
-        ObjectRepo.waitForLoad(3000);
-        iDiversityDrop.selectByValue("Type 1");
-        ObjectRepo.waitForLoad(3000);
-        dualCustPowerA.click();
+            internalCablingA.click();
+            ObjectRepo.waitForLoad(3000);
+            linkAggregA.click();
+            ObjectRepo.waitForLoad(3000);
+            diversity.click();
+            ObjectRepo.waitForLoad(3000);
+            performanceReporting.click();
+            ObjectRepo.waitForLoad(3000);
+            proActive.click();
+            ObjectRepo.waitForLoad(3000);
+            fastTrackBox.click();
+            ObjectRepo.waitForLoad(3000);
+            Select icablingDrop = new Select(internalCablingDropA);
+            icablingDrop.selectByValue("1");
+            ObjectRepo.waitForLoad(3000);
+            Select iDiversityDrop = new Select(diversityADrop);
+            ObjectRepo.waitForLoad(3000);
+            iDiversityDrop.selectByValue("Type 1");
+            ObjectRepo.waitForLoad(3000);
+            dualCustPowerA.click();
     }
 
     public void addAllHubFeatures(String poa){

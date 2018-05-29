@@ -32,9 +32,9 @@ public class ApprovalMessageTest extends InitWebDriver {
         productPage.addProductPageProduct(DPObj.DataArray.get(0), DPObj.DataArray.get(1), DPObj.DataArray.get(2),
                 DPObj.DataArray.get(3),
                 DPObj.DataArray.get(4),
-                DPObj.DataArray.get(6)
+                DPObj.DataArray.get(7)
                 );
-        ObjectRepo.waitForLoad(3000);
+        ObjectRepo.waitForLoad(8000);
         commercePage.quoteTab.click();
         ObjectRepo.waitForLoad(3000);
         Select dropdownRes = new Select(commercePage.quoteTypeDropDown);
@@ -53,6 +53,8 @@ public class ApprovalMessageTest extends InitWebDriver {
         JavascriptExecutor executor = (JavascriptExecutor)Driver;
         executor.executeScript("arguments[0].click()", commercePage.calculateDiscount);
         ObjectRepo.waitForLoad(12000);
+        commercePage.saveButton.click();
+        ObjectRepo.waitForLoad(3000);
         commercePage.approvals.click();
         ObjectRepo.waitForLoad(8000);
         int discount = Integer.parseInt(DPObj.DataArray.get(5));
@@ -68,11 +70,11 @@ public class ApprovalMessageTest extends InitWebDriver {
         if(discount>5 && discount<10){
             String approvalMessage2 = commercePage.getApprovalMsgText();
             Assert.assertEquals(approvalMessage2,"VP Sales - 2 approval required from " +
-                    "Faraz anwar as total TCV discount  given on quote is in between 5.0% and 9.99%.");
+                    "Mohit Khetrapal as total TCV discount  given on quote is in between 5.0% and 9.99%.");
         }else
             if(discount>10 && discount<15){
             String approvalMessage3 = commercePage.getApprovalMsgText();
-            Assert.assertEquals(approvalMessage3, "VP Sales - 1 approval required from Paula Cogan as total " +
+            Assert.assertEquals(approvalMessage3, "VP Sales - 1 approval required from Mohit Khetrapal as total " +
                     "TCV discount  given on quote is in between 10.0% and 15.0%.");
             }else
                 if(discount>15){

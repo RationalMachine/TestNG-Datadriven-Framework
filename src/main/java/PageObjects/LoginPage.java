@@ -37,4 +37,8 @@ public class LoginPage extends PageBase{
         ObjectRepo.waitForLoad(3000);
         return new MainPage(driver);
     }
+
+    public WebElement getLoginButton() {
+        return loginButton;
+    }
 }

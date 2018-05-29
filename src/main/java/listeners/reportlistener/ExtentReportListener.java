@@ -9,6 +9,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import org.testng.*;
+import util.ObjectRepo;
 import util.Screenshot;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class ExtentReportListener implements ISuiteListener,ITestListener {
 
 	public void onStart(ISuite suite) {
 	    //String reportPath = System.getProperty("user.dir");
-		exReport = new ExtentReports("/reports" + ".html");
+		exReport = new ExtentReports("reports/" + suite.getName() + ".html");
 		System.out.println("On Start Method executed");
 	}
 
@@ -50,6 +51,7 @@ public class ExtentReportListener implements ISuiteListener,ITestListener {
 	public void onTestFailure(ITestResult test) {
 		exTest.log(LogStatus.FAIL, test.getTestClass().getName() + "." + test.getMethod().getMethodName());
 		exTest.log(LogStatus.FAIL, test.getThrowable());
+        ObjectRepo.waitForLoad(6000);
 		try {
 			String src = Screenshot.takeScreenShot(test.getMethod().getMethodName());
 			exTest.log(LogStatus.INFO, exTest.addScreenCapture( src == null ? "" : src ));

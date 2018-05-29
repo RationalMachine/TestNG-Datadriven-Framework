@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite">
+<suite name="SanityTesting">
     <listeners>
         <listener
                 class-name="listeners.reportlistener.ExtentReportListener" />
@@ -11,9 +11,29 @@
             <class name="ApprovalMessageTest" />
         </classes>
     </test>
-    <test name="CPQConnectivityTest">
+    <test name="CPQ Connectivity Test">
         <classes>
             <class name="CPQConnectivityTest" />
         </classes>
     </test> <!-- Test -->
+    <test name="All Products with All Features Test">
+        <classes>
+            <class name="AllProductsAllFeatures" />
+        </classes>
+    </test>
+    <test name="Deal Class Approval">
+        <classes>
+            <class name="DealClassApprovalTest"/>
+        </classes>
+    </test>
+    <test name="Add All Products Same Quote">
+        <classes>
+            <class name="AddAllProductsSameQuote"/>
+        </classes>
+    </test>
+    <test name="Ethernet P2P Adding">
+        <classes>
+            <class name="EthernetP2PAdd"/>
+        </classes>
+    </test>
 </suite> <!-- Suite -->

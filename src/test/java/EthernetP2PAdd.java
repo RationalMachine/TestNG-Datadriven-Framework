@@ -31,7 +31,7 @@ public class EthernetP2PAdd extends InitWebDriver{
 
         String path = System.getProperty("user.dir") + "\\text.txt";
 
-        for(int i=1; i<51; i++) {
+        for(int i=1; i<3; i++) {
             long startTime = System.currentTimeMillis();
             ProductPage productPage = commercePage.addProduct();
             System.out.println(DPObj.DataArray.get(0));

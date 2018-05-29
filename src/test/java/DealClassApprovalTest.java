@@ -19,7 +19,7 @@ import util.PropertyReader;
 
 public class DealClassApprovalTest extends InitWebDriver{
 
-    @Test(dataProviderClass = dataprovider.ExcelDataProvider.class,dataProvider="getProductData")
+    @Test(dataProviderClass = dataprovider.ExcelDataProvider.class,dataProvider="getDealPriceData")
     public void dealClassApprovalFlow(ExcelDataProviderObject DPObj){
         LoginPage lpage;
         lpage = new LoginPage(Driver);
@@ -62,8 +62,9 @@ public class DealClassApprovalTest extends InitWebDriver{
         String tcvValue = commercePage.getTCVValue();
         String acvValue = commercePage.getACVValue();
         String arrValue = commercePage.getARRValue();
+        String igmadVal = DPObj.DataArray.get(8);
 
-        commercePage.modifyCSVwithNewPrices(acvValue,tcvValue,arrValue);
+        commercePage.modifyCSVwithNewPrices(acvValue,tcvValue,arrValue,igmadVal);
 
         String quoteIDvalue = commercePage.getHTMLtext(commercePage.quoteID);
 
@@ -97,7 +98,8 @@ public class DealClassApprovalTest extends InitWebDriver{
         ObjectRepo.waitForLoad(3000);
         productPage.quoteManager.click();
         ObjectRepo.waitForLoad(3000);
-        int discount = Integer.parseInt(DPObj.DataArray.get(5));
+        //int discount = Integer.parseInt(DPObj.DataArray.get(5));
+        int IGMAD = Integer.parseInt(DPObj.DataArray.get(8));
 
         String xpathValue = "//a[contains(text()," + "'" + quoteIDvalue + "')]";
 
@@ -118,23 +120,31 @@ public class DealClassApprovalTest extends InitWebDriver{
         commercePage.uploadCSV();
         ObjectRepo.waitForLoad(3000);
 
+        commercePage.saveButton.click();
+        ObjectRepo.waitForLoad(3000);
 
+        executor.executeScript("arguments[0].click()", commercePage.approvals);
 
-        if(discount>=15){
-            /*
-            Click on Users
-            Click on a user
-            Check groups
-            If groups != Deal Price User then make it Deal Price User
-            Login as that user
-            Assign quote form p&l
-            Upload pricing CSV
-            Fill out required text areas
-            Submit for Approvals
-            Do IGMAD check and ASSERT approval triggers accordingly
-             */
+        String[] arr = commercePage.getApprovalMsgDealPricing();
+
+        ObjectRepo.waitForLoad(3000);
+
+        if(IGMAD<25){
+            Assert.assertEquals(arr[0],"VP Sales approval required from " +
+                    "Mohit Khetrapal as IGMAD% given on quote is less than 25.0%");
+            Assert.assertEquals(arr[1],"VP Finance approval required from " +
+                    "Ben Thomas as IGMAD% given on quote is less than 25.0%.");
+            commercePage.submitDealApproval.click();
         }
 
-        Assert.assertTrue(commercePage.approvals.isDisplayed());
+        if(IGMAD>=25 && IGMAD<30){
+            Assert.assertEquals(arr[0],"VP Sales - 1 approval required from " +
+                    "Mohit Khetrapal as IGMAD% given on quote is in between 24.99% and 30.0%");
+            Assert.assertEquals(arr[1],"VP Finance - 1 approval required from " +
+                    "Ben Thomas as IGMAD% given on quote is in between 24.99% and 30.0%.");
+            commercePage.submitDealApproval.click();
+        }
+
+        //Assert.assertTrue(commercePage.approvals.isDisplayed());
     }
 }
